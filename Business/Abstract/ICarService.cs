@@ -9,9 +9,17 @@ namespace Business.Abstract
     {
         //  GetById, GetAll, Add, Update, Delete
 
+        List<Car> GetAll();
+
+        List<Car> GetCarsByBrandId(int id);
+        List<Car> GetCarsByColorId(int id);
+
+        List<Car> GetByPrice(int min, int max);
+
         Car GetById(int id);
 
-        List<Car> GetAll();
+
+
 
         void Add(Car car);
 
