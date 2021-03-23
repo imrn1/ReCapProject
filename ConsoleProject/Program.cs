@@ -68,8 +68,8 @@ namespace ConsoleProject
         {
             CarManager carManager = new CarManager(new InMemoryCarDal());
 
-            List<Car> cars = carManager.GetAll();
             Console.WriteLine("---------------- GetAll cars ---------------------\n");
+            List<Car> cars = carManager.GetAll();
             showCarList(cars);
 
             Console.WriteLine("\n---------------- Add car ---------------------\n");
