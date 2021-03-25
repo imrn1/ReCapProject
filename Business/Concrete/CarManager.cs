@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -46,7 +47,7 @@ namespace Business.Concrete
             // iş kodları...
             //Araba ismi minimum 2 karakter olmalıdır
             //Araba günlük fiyatı 0'dan büyük olmalıdır.
-            if(car.Name.Length>=2 && car.DailyPrice > 0)
+            if(car.CarName.Length>=2 && car.DailyPrice > 0)
             {
                 _carDal.Add(car);
             }
@@ -72,6 +73,9 @@ namespace Business.Concrete
             _carDal.Update(car);
         }
 
-      
+        public List<CarDetailsDto> GetCarDetails()
+        {
+           return  _carDal.GetCarDetails();
+        }
     }
 }

@@ -1,62 +1,38 @@
 ﻿
 using DataAccess.Abstract;
-using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Core.dataAcces.EntityFramework;
+using Entities.DTOs;
+using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, NorthwindContext>, ICarDal
     {
-        public Car Get(Expression<Func<Car, bool>> filter)
+        public List<CarDetailsDto> GetCarDetails()
         {
             using (NorthwindContext context = new NorthwindContext())
             {
-                return context.Set<Car>().SingleOrDefault(filter);
-            }
-        }
+                var result = from car in context.Cars
+                             join color in context.Colors
+                             on car.ColorId equals color.id
+                             join brand in context.Brands
+                             on car.BrandId equals brand.id
+                             select new CarDetailsDto
+                             {
+                                 BrandName = brand.BrandName,
+                                 CarName = car.CarName,
+                                 ColorName = color.ColorName,
+                                 DailyPrice = car.DailyPrice
+                             };
 
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                return filter == null
-                    ? context.Set<Car>().ToList()
-                    : context.Set<Car>().Where(filter).ToList();
-            }
-        }
+                return result.ToList();
 
-        public void Update(Car entity)
-        {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                var UpdatedEntitiy = context.Entry(entity);
-                UpdatedEntitiy.State = EntityState.Modified;
-                context.SaveChanges();
-            }
-        }
-
-        public void Add(Car entity)
-        {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                var AddedEntitiy = context.Entry(entity);
-                AddedEntitiy.State = EntityState.Added;
-                context.SaveChanges();
-            }
-        }
-
-        public void Delete(Car entity)
-        {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                var DeletedEntitiy = context.Entry(entity);
-                DeletedEntitiy.State = EntityState.Deleted;
-                context.SaveChanges();
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace DataAccess.Concrete
 
         public InMemoryCarDal()
         {
-            _cars = new List<Car>() { 
+            _cars = new List<Car>() {
                 new Car(){id=1,BrandId=1,ColorId=1,DailyPrice=1000,Description="asdf1",ModelYear="2000"},
                 new Car(){id=2,BrandId=2,ColorId=2,DailyPrice=5000,Description="asdf2",ModelYear="2003"},
                 new Car(){id=3,BrandId=1,ColorId=2,DailyPrice=1500,Description="asdf3",ModelYear="2005"}
@@ -45,6 +46,11 @@ namespace DataAccess.Concrete
         public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
             return _cars;
+        }
+
+        public List<CarDetailsDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
         }
 
         public void Update(Car car)
